@@ -8,21 +8,21 @@
 
 # JavaScript: Elementy DOM
 
-Będziemy musieli utworzyć nowe elementy w drzewie DOM, dodać do wybranych elementów odpowienie klasy, atrybutu czy zawartość i oczywiście wyszukać odpowiedniej miejsca, w których będziemy wykonywać modyfikacje.
+W tym projekcie będziemy musieli utworzyć nowe elementy w drzewie DOM, wyszukać już istniejące i dodać do nich odpowiednie klasy, atrybuty czy zawartość.
 
 ## Jaki mamy problem do rozwiązania?
 
-Otrzymaliśmy gotowy kod HTML oraz CSS niestety nie możemy go modyfikować. Wszystko co robimy musi zostać wykonane z poziomu kodu JS. 
+Otrzymaliśmy gotowy kod HTML i CSS, ale niestety nie możemy go modyfikować. Wszystko musi zostać zrobione z poziomu kodu JS.
 
-Zleceniodawca nie chce nam powiedzieć dlaczego tak jest. Godzimy się na jego warunki ponieważ chcemy zdobyć komercyjne doświadczenie!
+Zleceniodawca nie chce nam powiedzieć, dlaczego tak jest. Godzimy się na jego warunki, ponieważ chcemy zdobyć komercyjne doświadczenie!
 
-### Problem 1: Wygenerowanie linków z *tooltip-em* po najechaniu kursorem myszy
+### Problem 1: Wygenerowanie linków z *tooltipem* po najechaniu kursorem na element
 
-> *Tooltip* to taki dymek pojawiający się w okolicy elementu po kliknięciu lub najechaniu na niego, posiadający dodatkową informację. Przykład możemy zobaczyć [tutaj](https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip).
+> *Tooltip* to dymek z dodatkową informacją. Pojawia się on w okolicy elementu po kliknięciu lub najechaniu na niego. Przykład możemy zobaczyć [tutaj](https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip).
 
-> Problem rozwiązujemy w pliku `./assets/js/introduce.js`
+> Problem rozwiązujemy w pliku `./assets/js/introduction.js`
 
-Musimy zmodyfikować element o klasie `.tooltip` w taki sposób, aby generował on prawidlową strukturę zgodną z CSS. Obecnie ten element wygląda w taki sposób:
+Musimy zmodyfikować element o klasie `.tooltip` w taki sposób, aby generował on prawidłową strukturę zgodną z CSS. Obecnie ten element wygląda w tak:
 
 ```html
 <span 
@@ -35,7 +35,7 @@ Musimy zmodyfikować element o klasie `.tooltip` w taki sposób, aby generował 
 </span>
 ```
 
-Posiada mnóstwo informacji. Nam zależy na tym, aby wykorzystać te informacje w taki, aby utworzyć taką zawartość:
+Zwiera mnóstwo informacji. Nam zależy na tym, aby za ich pomocą utworzyć poniższy element:
 
 ```html
 <span 
@@ -51,15 +51,19 @@ Posiada mnóstwo informacji. Nam zależy na tym, aby wykorzystać te informacje 
 </span>
 ```
 
-Czyli zawartośc elementu o klasie `.tooltip` tj. tekst `skryptowy` zamienić (nadpisać) na dwa znaczniki (ang. *tags*). Należy zwrócić uwagę, że pierwszy z nich tj. `<a>` zwiera tekst, który znajdował się w elemencie o klasie `.tooltip`. 
+Zawartość elementu o klasie `.tooltip`, tj. tekst `skryptowy`, trzeba zamienić (nadpisać) na dwa elementy (dzieci). Należy zwrócić uwagę, że pierwszy z nich, `<a>`, zwiera tekst, który przed modyfikacją stanowi zawartość elementu o klasie `.tooltip`.
 
-Aby rozwiązać ten problem musimy dla każdego elementu (`.queyrSelectorAll()` i pętla `for` lub `.forEach`), który zawiera te dane (tj. `.tooltip`) utworzyć dwa znaczniki tj. `<a>` oraz `<span>` z odpowiednimi klasami i zawartością. Następnie te elementy dodać do `.tooltip` jako kolejne dzieci tego elementu.
+Musimy zatem dla każdego elementu o klasie `.tooltip` utworzyć dwoje dzieci, tj. `<a>` oraz `<span>`, z odpowiednimi atrybutami i zawartością, a następnie dodać je do `.tooltip`. Aby rozwiązać ten problem, użyj metody `.queyrSelectorAll()` i pętli  `for` lub metody `.forEach()`.
 
-Odpowiednią zawartość możemy pobrać z `dataset`, który posiada dane typu adres dla link-u => `.dataset.url`, typ tooltip-u => `.dataset.tooltipType` oraz jego zawartość => `.dataset.tooltipContent`.
+Zawartość dla elementów-dzieci pobierzesz z `dataset`:
 
-Tutaj należy zwrócić uwagę, że mamy różne typy *tooltip-ów*. Może to być *tooltip* tekstowy (`text`) oraz obrazkowy (`image`).
+ - adres dla linku => `.dataset.url`
+ - typ tooltipa => `.dataset.tooltipType`
+ - zawartość tooltipa => `.dataset.tooltipContent`.
 
-Jeśli *tooltip* jest typem obrazkowym musi zawierać inną strukturę. Podobną do tej:
+Zwrócić uwagę, że mamy **różne typy tooltipów**. Może to być tooltip tekstowy (`text`) oraz obrazkowy (`image`).
+
+Jeśli tooltip jest typem obrazkowym, musi mieć inną strukturę:
 
 ```html
 <a href="https://pl.wikipedia.org/wiki/Strona_internetowa">
@@ -71,18 +75,17 @@ Jeśli *tooltip* jest typem obrazkowym musi zawierać inną strukturę. Podobną
 </span>
 ```
 
-Jeśli wykonamy prawidłowo podmianę struktury to po najechaniu kursorem na `.tooltip` powinna się pojawić dodatkowa informacje przy najechanym elemencie:
+Jeśli prawidłowo wykonamy podmianę struktury, to po najechaniu kursorem na `.tooltip` powinniśmy obok elementu zobaczyć dodatkową informację:
 
 ![](assets/img/example1.png)
 
+W zależności od typu tooltipa będzie ona inaczej wyglądać.
 
-W zależności od typu *tooltip-u* może ona troszkę inaczej wyglądać.
-
-### Problem 2: Wygenerowanie spisu treści na podstawie tablicy obiektów.
+### Problem 2: Wygenerowanie spisu treści na podstawie tablicy obiektów
 
 > Problem rozwiązujemy w pliku `./assets/js/list.js`.
 
-Otrzymaliśmy od Klienta spis treści w formie tablicy obiektów.
+Otrzymaliśmy od klienta spis treści w formie tablicy obiektów.
 
 ```javascript
 const list = [
@@ -132,9 +135,9 @@ const list = [
 ];
 ```
 
-Klient zaznaczył, że ta tablica może ulegać modyfikacji i nasze rozwiązanie musi być na tyle elastyczne, aby zmiana zawartości tej tablicy nie powodowała problemów z generowaniem spisu treści.
+Klient zaznaczył, że ta tablica może ulegać modyfikacji i nasze rozwiązanie musi być na tyle elastyczne, aby zmiana zawartości tablicy nie powodowała problemów z generowaniem spisu treści.
 
-Wspomniana tablica zawiera obiekty z odpowiednimi danymi:
+Tablica ta zawiera obiekty z odpowiednimi danymi:
 
 ```javascript
 {
@@ -146,12 +149,12 @@ Wspomniana tablica zawiera obiekty z odpowiednimi danymi:
 ```
 
 gdzie:
-* **id** - unikalny identyfikator każdego elementu
-* **parentId** - id rodzica lub `null`, ten element oznacza czy nasz obiekt jest dzieckiem (posiada ustawiony parentId) lub jest rodzicem
-* **text** - zawartość text dla elementu `<a/>`
-* **link** - zawatość dla atrybutu `href` w `</a>`
+* **id** – unikalny identyfikator każdego elementu
+* **parentId** – id rodzica lub `null`; ten element określa, czy nasz obiekt jest dzieckiem (posiada ustawiony `parentId`), czy rodzicem (wówczas `parentId` ma wartość `null`)
+* **text** – zawartość tekstowa dla elementu `<a/>`
+* **link** – zawartość dla atrybutu `href` w `</a>`
 
-Na podstawie tych danych musimy wygenerowac taki kod html:
+Na podstawie tych danych musimy wygenerować taki kod HTML:
 
 ```html
 <ul>
@@ -180,19 +183,16 @@ Na podstawie tych danych musimy wygenerowac taki kod html:
 
 i wstawić go do elementu `.article__list`.
 
-Głównym problemem jest tutaj różny poziom zagnieżdzenia tych elementów. Moglibyśmy rozróżnić dwa poziomu.
+Głównym problemem jest tutaj różny poziom zagnieżdżenia tych elementów. Moglibyśmy rozróżnić dwa poziomy:
 
-Pierwszy to ten, który dotyczy elementów o właściwości `.parentId` równej `null`.
-
-Drugi poziom te elementy, które posiadają rodziców.
+ 1. Pierwszy to ten, który dotyczy elementów o właściwości `.parentId` równej `null`.
+ 2. Drugi poziom to elementy, które mają rodziców.
 
 #### Propozycja rozwiązania
 
-> Ten problem jest na tyle złożony, że możnaby go było rozwiązać na wiele sposóbów. Ja zaproponuję jeden z nich, ale to nie oznacza, że nie można zrobić tego inaczej (i lepiej!).
+> Ten problem jest na tyle złożony, że można go rozwiązać na wiele sposobów. Ja zaproponuję jeden z nich, ale to nie oznacza, że nie można zrobić tego inaczej (i lepiej!).
 
-Początkowo wygenerowałbym tylko elementy, które są na 1 poziomie zagnieżdzenia. Tutaj mogłbym wykorzystać `.forEach` lub pętle `for` oraz `if-a` wew. iteracji. Sprawdzałbym tylko czy `parentId` jest równe `null`.
-
-Jeśli tak to tworzę odpowiednią zawartość, a do `dataset.id` dopisuję jego id. Po to, aby potem wiedzieć, jaki ten element ma identyfikator. 
+Najpierw generuję tylko elementy, które są na 1 poziomie zagnieżdżenia. Tutaj wykorzystuję `.forEach` lub pętlę `for` oraz warunek `if` wewnątrz iteracji. Sprawdzam tylko, czy `parentId` jest równe `null`. Jeśli tak, to tworzę odpowiednią zawartość, a do `dataset.id` dopisuję id elementu – aby potem wiedzieć, jaki ten element ma identyfikator. 
 
 Wygenerowany kod powinien wyglądać mniej więcej tak:
 
@@ -200,13 +200,13 @@ Wygenerowany kod powinien wyglądać mniej więcej tak:
 <li data-id="44"><a href="#Historia">Historia</a></li>
 ```
 
-Następnie wyszukałbym wszystkie `li` znajdujące się w odpowiedniej sekcji i znów bym wykorzystał pętlę, aby odnieść sie do każdego elementu z osobna.
+Następnie wyszukuję w dokumencie wszystkie `li` znajdujące się w odpowiedniej sekcji i znów wykorzystuję pętlę, aby odnieść się do każdego elementu z osobna.
 
-Wew. tej pętli mogę pobrać `id` tego elementu np. po przez `const id = Number(item.dataset.id)`.
+Wewnątrz tej pętli mogę pobrać `id` danego elementu np. przez `const id = Number(item.dataset.id)`.
 
-Następnie wyszukuję wszystkie elementy z tablicy `list`, które posiadają `parentId` równy pobranemu `id`.
+Następnie w tablicy `list` wyszukuję wszystkie obiekty, które posiadają `parentId` równy pobranemu `id`.
 
-Mógłbym to zrobic za pomocą [`.filter()`](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/filter) na tablicy.
+Mogę to zrobić za pomocą metody [`.filter()`](https://developer.mozilla.org/pl/docs/Web/JavaScript/Referencje/Obiekty/Array/filter) wykonanej na tablicy.
 
 ```javascript
 const children = list.filter(function(element) {
@@ -214,18 +214,17 @@ const children = list.filter(function(element) {
 });
 ```
 
-Dzięki temu rozwiązaniu wiem, jakie elementy musze utworzyć dla tego zagnieżdzenia (pamiętaj, że może ich nie być w ogóle). Znów piszę kod, który tworzy mi `ul` oraz pętle dla `li`.
+Dzięki temu rozwiązaniu wiem, jakie elementy muszę utworzyć dla tego zagnieżdżenia (pamiętaj, że może ich nie być w ogóle). Znów piszę kod, który tworzy mi `ul` oraz pętlę dla `li`.
 
 Efekt działania naszego kodu powinien być taki jak zakomentowany kod HTML w odpowiedniej sekcji.
 
-Efekt wizualny powinien być miej więcej taki:
+Spis treści natomiast ma prezentować się mniej więcej tak:
 
 ![](assets/img/example2.png)
 
 Po kliknięciu w element listy powinieneś zostać przekierowany do odpowiedniego nagłówka w treści strony. 
 
-Płynne przejscie jest zrealizowane przez CSS! Zobacz reguły CSS przypisane do znacznika `html`.
-
+Płynne przejście jest realizowane przez CSS! Zobacz reguły CSS przypisane do znacznika `html`.
 
 
 &nbsp;
