@@ -1,7 +1,6 @@
 const tooltipList = document.querySelectorAll('.tooltip');
 
 tooltipList.forEach(el => {
-  console.log(el.dataset.tooltipType);
   const anchor = document.createElement('a');
   anchor.setAttribute('href', el.dataset.url)
   anchor.textContent = el.textContent;
@@ -10,7 +9,6 @@ tooltipList.forEach(el => {
   if(el.dataset.tooltipType === "text") {
     const spanEl = document.createElement('span');
     spanEl.classList.add('tooltip__box', 'tooltip__box-text');
-    console.log(spanEl);
     spanEl.textContent = el.dataset.tooltipContent;
     el.appendChild(spanEl);
   } else {
